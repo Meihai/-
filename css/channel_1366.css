@@ -1,0 +1,75 @@
+﻿@charset "utf-8";
+
+.pIndex{width:1366px;height:768px;background:url(../images/indexBg_1366.png) no-repeat left top;}
+    .modIndexLeft{margin-top:65px;}
+	.modIndexLeft table tr{height:110px;}
+	.modIndexLeft table tr.net{height:110px;}
+	.modIndexLeft table tr.alert{height:110px;}
+    .modIndexRight{margin:85px 85px 0 0;}
+    .modIndexRight .box{height:600px;}
+    .modIndexRight .logo{padding-top:78px;}
+	.modUnlock{height:768px;}
+	.modIndexLogin{height:768px;}
+	
+.pMenu{width:1366px;height:768px;}
+    .pMenu ul{height:758px;}
+    .pMenu ul li img{width:435px;height:240px;}
+
+.pModule{width:1366px;height:768px;}
+    .pModule .phd{height:68px;}
+    .pModule .pbd{height:675px;}
+    .layMenu{width:280px;margin-left:12px;height:675px;}
+    .layMenu dl dt{background:url(../images/menuBg_home_1366.png) no-repeat right center;}
+    .layMenu dl dd ul li{margin:0 4px 8px;}
+    .layContent{width:1060px;height:675px;}
+    .layContent .mod{height:660px;margin-bottom:0;}
+    .layContent .mod .mbd{height:605px;}
+	
+	#modBox .mbd .box{height:600px;margin:15px 15px auto;}
+    #modBox .mbd .box .acdetail{width:230px;height:600px;}
+    #modBox .mbd .box .acdetail h2{margin-left:20px;}
+    #modBox .mbd .box .acdetail ul li{padding-left:20px;}
+	#modBox .mbd .box .aclist{width:798px;}
+	#modBox .mbd .box .aclist span{margin:75px 17px auto;}
+	#modBox .mbd .box .aclist span.leftarr{margin-right:0;}
+    #modBox .mbd .box .acdetail table td{height:38px;}
+	#modBox .mbd .box .aclist .list{width:660px;}
+	#modBox .mbd .box .aclist .list li{margin-left:30px;}
+    #modBox .mbd .box .set{left:230px;top:130px;}
+    #modBox .mbd .box .chartArea{right:12px;}
+
+	#modPdu .mbd .box{height:600px;margin:15px 15px auto;}
+    #modPdu .mbd .box .chartArea{height:423px;padding-top:15px;border:0;}
+	#modPdu .mbd .box .actab span{margin:75px 0 0 30px;}
+	#modPdu .mbd .box .actab .list{width:868px;margin-top:25px;}
+	#modPdu .mbd .box .actab .list li{margin-left:32px;border-radius:5px;}
+	
+	#modAc .mbd .box{height:600px;margin:15px 15px auto;}	
+    #modAc .mbd .box .chartArea{height:423px;padding-top:15px;}
+	#modAc .mbd .box .actab{height:180px;}
+	#modAc .mbd .box .actab span{margin:75px 0 0 30px;}
+	#modAc .mbd .box .actab .list{width:868px;margin-top:25px;}
+	#modAc .mbd .box .actab .list li{margin-left:32px;border-radius:5px;}
+	
+	#modStat .mbd .box{height:600px;margin:15px 15px auto;}	
+    #modStat .mbd .box table td{height:320px;}
+    #modStat .mbd .box table td:last-child{border-right:0;}
+    #modStat .mbd .box table .title{text-align:left;padding-left:20px;}
+	
+    #modVideo .mbd .box{height:600px;margin:15px 15px auto;}
+    #modVideo .mbd .box video{height:600px;}
+	
+    #modNet .mbd .box{height:600px;margin:15px 15px auto;background:url(../images/net.png) no-repeat center -10px;}
+    #modNet .mbd .box img{display:none;}
+	
+    #modAlert .mbd .box{height:600px;margin:15px 15px auto;}
+	
+    #modSet .mbd .box{height:600px;margin:15px 15px auto;}
+	
+	
+	
+	
+	
+	
+	
+	

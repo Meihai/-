@@ -1,0 +1,29 @@
+﻿@charset "utf-8";
+.phd{max-width:1280px;}
+.pbd{width:1280px;max-width:1280px;height:685px;}
+.layMenu{width:250px;}
+.layMenu li{height:65px;line-height:65px;}
+
+.pbd .layContent{width:1020px;}
+.modCopyright{width:100%;text-align:center;color:#fff;}
+
+.mod{height:620px; }
+.mod .mhd{height:50px;}
+.mod .mhd h3{line-height:50px;}
+.mod .mhd ul{line-height:50px;}
+.mod .mbd:active{width:100%;background:#fff;height:620px; text-decoration;}
+.mod .mbd .charts canvas{height:470px}
+
+
+.pLogin .pbd{}
+    .modLogin{left:630px;top:278px;}
+    .modLogin li{height:55px;}
+
+
+.pIndex{width:1280px;}
+.pIndex .pbd{width:1280px;max-width:1280px;}
+
+    .modIndexPdu{bottom:440px;left:890px;}
+    .modIndexBox{bottom:585px;left:40px;}
+    .modIndexUps{top:270px;left:100px;}
+    .modIndexAc{top:440px;left:120px;}

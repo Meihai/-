@@ -1,0 +1,767 @@
+﻿<!DOCTYPE html>
+<html ng-app="ITCabApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ITCab</title>
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=2.0, user-scalable=no, width=device-width">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/ui-bootstrap-csp.css" rel="stylesheet" />
+    <link href="css/angular-chart.css" rel="stylesheet" />
+    <link href="css/pie-chart.css" rel="stylesheet" />
+    <link href="css/iconfont.css" rel="stylesheet" />
+    <link href="css/channel.css" rel="stylesheet" />
+    <!--<link href="css/channel_1024.css" rel="stylesheet" />-->
+</head>
+<body class="kap-loading" ng-controller="MainCtrl" jd-event="LoadAlert,loadAlert">
+
+    <img class="kap-loading-icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAbwAAAG8B8aLcQwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHlSURBVFiF7Za9SkNBEIU/fxEbCwtNjKkEQdDCOp0gQhR8CPU1gpU2PkZ8CMEHSC0iop3GTtDGxB84Fplr1utukr2JP4UDB5bZ3Tmzc8/sXiSRAfOSqpLqhqr5omMNSSLS5oEzYCrlfwSWgZuYYMOx7MChhxzzHcYGy1KBOpAPzN0BczaeANaAReASOAWaX3Z0+D4zknYkzab8dYWtbmtWJF2k5s4lLaV5QuT7kp5t44ukA2eu2iGBqqRJSVeB+XNJE90SmHHIE3uVlFO7Ax48wR9sbrtDgpJUdvl8ItwCxlO+UWDTxje01H5s3/zOxkkHLHTR0GI3DcyqVfZ0BfKetT5EVSAU5MBIE/KjHslRSwPXAfIL9aCBBDlJuxEnd7HqSeJKre7o+ybs1SaBddPENXACPKUXfWcCPVm6C6YNv5JABbg1VL6BqwTUDKUPr4lhWlLDEUzDfFme6hBqTvxa4s/yGg7WnAwrdvKGjQd5eiSV7OQ1G3vbMBHg/U8V4M+14X8CrhWAPaDYR/yixSgEVwQUm1f7SX6TVMyg+qLtlcXyPmqhCpSBMRuPABsZTr9he7FY5ZgK5CQ1newLGSpQcKrYVPuX7hP6+R/wXiyeT7kbIu+WQKa7PRa/3oYDv9tj8X8VvwNn4t9/zRDjEQAAAABJRU5ErkJggg==" />
+    <div ui-view></div>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script src="Scripts/jquery-ui_min.js"></script>
+    <script src="Scripts/jquery.touchSwipe.min.js"></script>
+    <script src="Scripts/jQueryRotate.2.1.js"></script>
+    <script src="Scripts/layer/layer.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-resource.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script src="Scripts/angular-ui/angular-ui-router.min.js"></script>
+    <script src="Scripts/angular-sanitize.min.js"></script>
+    <script src="Scripts/angular-cookies.min.js"></script>
+    <script src="Scripts/d3.min.js"></script>
+    <script src="Scripts/apojop.min.js"></script>
+    <script src="Scripts/pie-chart.min.js"></script>
+    <script src="Scripts/Chart.min.js"></script>
+    <script src="Scripts/angular-chart.js"></script>
+    <script src="Scripts/echarts.min.js"></script>
+    <script src="Scripts/main.js"></script>
+    <script src="Scripts/eventService.js"></script>
+    <script src="Scripts/UI/view.js"></script>
+    <script src="Scripts/UI/Channel/App.js"></script>
+    <script src="Scripts/UI/Channel/Controllers.js"></script>
+    <script src="Scripts/UI/Channel/Directives.js"></script>
+    <script src="Scripts/UI/Channel/Services.js"></script>
+
+
+    <script type="text/ng-template" id="Template/Index.html">
+        <div class="pbd pIndex" ng-controller="IndexCtrl" jd-event="LoadData,loadData">
+            <div class="modIndexLeft">
+                <div class="box">
+                    <table ng-click="login()">
+                        <tr class="power">
+                            <th><img alt="" src="images/icon_power.png"></th>
+                            <td class="left"><ins>{{box.voltageInput|number:1}}</ins>V</td>
+                            <td class="left">
+                            </td>
+                            <td class="right"><ins>{{box.currentInput|number:1}}</ins>A</td>
+                        </tr>
+                        <tr class="ac">
+                            <th><img alt="" src="images/icon_ac.png"></th>
+                            <td class="left"><label>前端</label><span class="{{ac.compareFrontTemperature}}"><ins>{{ac.currentFrontTemperature|number:1}}</ins>℃</span></td>
+                            <td class="left">
+                            </td>
+                            <td class="right"><label>后端</label><span class="{{ac.compareBackTemperature}}"><ins>{{ac.currentBackTemperature|number:1}}</ins>℃</span></td>
+                        </tr>
+                        <!--<tr class="net">-->
+                            <!--<th><img alt="" src="images/icon_door.png"></th>-->
+                            <!--<td class="left">-->
+                                <!--<label>天窗状态</label>-->
+                                <!--<span class="iconfont" ng-if="alert.dormer != '1'">&#xe647;</span>-->
+                                <!--<span class="iconfont" ng-if="alert.dormer == '1'">&#xe648;</span>-->
+                            <!--</td>-->
+                            <!--<td class="right">-->
+                                <!--<div ng-click="closeDormer($event)" ng-if="alert.dormer == '1'">-->
+                                    <!--<label>关闭天窗</label>-->
+                                    <!--<span class="iconfont">&#xe651;</span>-->
+                                <!--</div>-->
+                                <!--<div ng-click="openDormer($event)" ng-if="alert.dormer != '1'">-->
+                                    <!--<label>打开天窗</label>-->
+                                    <!--<span class="iconfont">&#xe652;</span>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <tr class="alert">
+                            <th><img alt="" src="images/icon_alert.png"></th>
+                            <td class="center" colspan="3">
+                                <span ng-class="alert.power=='1'?'on':'off'">&#xe654;</span>
+                                <span ng-class="alert.safe=='1'?'on':'off'">&#xe64c;</span>
+                                <span ng-class="alert.environmental=='1'?'on':'off'">&#xe61c;</span>
+                                <span ng-class="alert.other=='1'?'on':'off'">&#xe64b;</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modIndexRight" ng-click="login()">
+                <div class="box">
+                    <div class="logo"><img src="images/logo.gif" alt="" /></div>
+                    <div class="time">{{time.now|date:'HH:mm'}}</div>
+                    <div class="week">{{time.week}}</div>
+                    <div class="date">{{time.now|date:'yyyy'}}<span>.</span>{{time.now|date:'MM'}}<span>.</span>{{time.now|date:'dd'}}</div>
+                </div>
+            </div>
+            <div class="alpha"></div>
+            <div class="modUnlock" ng-click="modUnlockClick()">
+                <div class="box" ng-click="boxClick()">
+                    <h3>请输入门禁解锁密码</h3>
+                    <div class="input"><input type="password" ng-model="password2" readonly /></div>
+                    <div class="nums">
+                        <ul>
+                            <li ng-repeat="num in nums" ng-click="pressNum(num)"><span class="num{{num}}">{{num}}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modIndexLogin">
+                <div class="box">
+                    <h3>输入账号密码</h3>
+                    <div class="input"><span>&#xe665;</span><input type="text" ng-model="account" name="account" placeholder="请输入账号" onkeydown="if(window.event.keyCode==13) document.getElementById('txtPwd').focus()" /></div>
+                    <div class="input"><span>&#xe622;</span><input type="password" id="txtPwd" ng-model="password" name="password" placeholder="请输入密码" onkeydown="if(window.event.keyCode==13) document.getElementById('btnSubmit').focus()" /></div>
+                    <div class="btns">
+                        <button type="submit" ng-click="loginSystem()" id="btnSubmit">登录</button>
+                        <button type="button" ng-click="cancelLogin()">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Menu.html">
+        <div class="pbd pMenu" ng-controller="MenuCtrl">
+            <ul>
+                <li ng-click="navi('box')">
+                    <img ng-src="images/menu_box.jpg" alt="" />
+                </li>
+                <li ng-click="navi('pdu')">
+                    <img ng-src="images/menu_pdu.jpg" alt="" />
+                </li>
+                <li ng-click="navi('ac')">
+                    <img ng-src="images/menu_ht.jpg" alt="" />
+                </li>
+                <li ng-click="navi('stat')">
+                    <img ng-src="images/menu_stat.jpg" alt="" />
+                </li>
+                <li ng-click="navi('index')">
+                    <img ng-src="images/menu_index.jpg" alt="" />
+                </li>
+                <li ng-click="navi('video')">
+                    <img ng-src="images/menu_video.jpg" alt="" />
+                </li>
+                <li ng-click="navi('net')">
+                    <img ng-src="images/menu_net.jpg" alt="" />
+                </li>
+                <li ng-click="navi('alert')">
+                    <img ng-src="images/menu_alert.jpg" alt="" />
+                </li>
+                <li ng-click="navi('set')">
+                    <img ng-src="images/menu_set.jpg" alt="" />
+                </li>
+            </ul>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Module.html">
+        <div class="pModule" ng-controller="ModuleCtrl">
+            <div id="alert_btn" ng-click="switchAlert(true)" ng-show="!showAlert">
+                <div ng-class="alert.power=='1' || alert.safe=='1' || alert.environmental == '1'  || alert.other == '1' ? 'warn':'normal' "></div>
+            </div>
+            <div id="alert_layer" ng-click="switchAlert(false)" ng-show="showAlert">
+                <table>
+                    <tr>
+                        <td class="power" ng-click="naviAlert('power')"><span ng-class="alert.power=='1' ? 'warn':'normal'">电力</span></td>
+                        <td class="safe" ng-click="naviAlert('safe')"><span ng-class="alert.safe=='1' ? 'warn':'normal'">安全</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="dis"><span ng-click="switchAlert(false)">隐藏</span></td>
+                    </tr>
+                    <tr>
+                        <td class="environmental" ng-click="naviAlert('environmental')"><span ng-class="alert.environmental=='1' ? 'warn':'normal'">环境</span></td>
+                        <td class="other" ng-click="naviAlert('other')"><span ng-class="alert.other=='1' ? 'warn':'normal'">其他</span></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="phd">
+                <div class="modLogo">
+                    <img alt="Keydak" src="images/KEYDAK.png" />
+                </div>
+                <div class="modSystem"> {{system.deviceName}} </div>
+                <div class="modRight">
+                    <div class="time"> {{time.now|date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                    <div class="logout" ng-click="logout()"><a>退出</a></div>
+                </div>
+            </div>
+            <div class="pbd">
+                <div class="layMenu">
+                    <dl>
+                        <dt ui-sref="Menu"><a>首页</a></dt>
+                        <dd>
+                            <ul>
+                                <!--<li id="Box" ng-click="navi('Box')" ng-class="module=='Box'?'on':''"><div><label>&#xe63a;</label><span>配电柜</span></div></li>-->
+                                <li id="Pdu" ng-click="navi('Pdu')" ng-class="module=='Pdu'?'on':''"><div><label>&#xe610;</label><span>PDU</span></div></li>
+                                <!--<li id="Ups" ng-click="navi('Ups')" ng-class="module=='Ups'?'on':''"><div><label>&#xe62b;</label><span>UPS</span></div></li>-->
+                                <li id="Ac" ng-click="navi('Ac')" ng-class="module=='Ac'?'on':''"><div><label>&#xe62a;</label><span>环境</span></div></li>
+                                <!--<li id="Stat" ng-click="navi('Stat')" ng-class="module=='Stat'?'on':''"><div><label>&#xe638;</label><span>能耗分析</span></div></li>-->
+                                <!--<li id="Video" ng-click="navi('Video')" ng-class="module=='Video'?'on':''"><div><label>&#xe60f;</label><span>视频监控</span></div></li>-->
+                                <li id="Net" ng-click="navi('Net')" ng-class="module=='Net'?'on':''"><div><label>&#xe63d;</label><span>网络通讯</span></div></li>
+                                <!--
+                                <li id="Assets" ng-click="navi('Assets')" ng-class="module=='Assets'?'on':''"><div><label>&#xe634;</label><span>资产管理</span></div></li>
+                                    -->
+                                <li id="Alert" ng-click="navi('Alert')" ng-class="module=='Alert'?'on':''"><div><label>&#xe640;</label><span>告警信息</span></div></li>
+                                <li id="Set" ng-click="navi('Set')" ng-class="module=='Set'?'on':''"><div><label>&#xe63e;</label><span>系统设置</span></div></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="layContent">
+                </div>
+            </div>
+            <div class="pft">
+                广州南盾通讯设备有限公司 客服热线：800-830-3873 系统版本：KEYDAK-2015.T3
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Box.html">
+        <div class="mod modBox" id="modBox" ng-controller="BoxCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>配电柜信息</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <div class="acdetail">
+                        <h2>
+                            <span ng-repeat="li in inLines" ng-class="li.selected?'on':''" ng-click="switchInLine(li)">进线{{li.id}}</span>
+                        </h2>
+                        <ul>
+                            <li>输入电流: {{inLine.currentInput}} A</li>
+                            <li>输入电压: {{inLine.voltageInput}} V</li>
+                            <li>总功率因素: {{inLine.powerFactor}}</li>
+                            <li>频率: {{inLine.frequency}}Hz</li>
+                        </ul>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>A相电流:</td>
+                                    <td>{{inLine.currentAPhase}} A</td>
+                                </tr>
+                                <tr>
+                                    <td>A相电压:</td>
+                                    <td>{{inLine.voltageAPhase}} V</td>
+                                </tr>
+                                <tr>
+                                    <td>A相功率因素:</td>
+                                    <td>{{inLine.powerFactorAPhase}}</td>
+                                </tr>
+                                <tr>
+                                    <td>B相电流:</td>
+                                    <td>{{inLine.currentBPhase}} A</td>
+                                </tr>
+                                <tr>
+                                    <td>B相电压:</td>
+                                    <td>{{inLine.voltageBPhase}} V</td>
+                                </tr>
+                                <tr>
+                                    <td>B相功率因素:</td>
+                                    <td>{{inLine.powerFactorBPhase}}</td>
+                                </tr>
+                                <tr>
+                                    <td>C相电流:</td>
+                                    <td>{{inLine.currentCPhase}} A</td>
+                                </tr>
+                                <tr>
+                                    <td>C相电压:</td>
+                                    <td>{{inLine.voltageCPhase}} V</td>
+                                </tr>
+                                <tr>
+                                    <td>C相功率因素:</td>
+                                    <td>{{inLine.powerFactorCPhase}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="aclist">
+                        <span class="leftarr" ng-click="preList()"><label><img src="images/leftArrow.png" /></label></span>
+                        <ul class="list">
+                            <li ng-repeat="item in outLines" ng-if="$index>=outLineIndex && $index<(outLineIndex+4)" ng-class="item.selected?'selected':''" ng-click="switchOutLine(item)">
+                                <table ng-class="item.state=='1'?'on':''">
+                                    <tr><th>#{{item.id}}</th></tr>
+                                    <tr><td>{{item.current}}A</td></tr>
+                                    <tr><td>{{item.voltage}}V</td></tr>
+                                </table>
+                            </li>
+                        </ul>
+                        <span class="rightarr" ng-click="nextList()"><label><img src="images/rightArrow.png" /></label></span>
+                    </div>
+                    <div class="set">
+                        <div class="form">
+                            <div class="fi">
+                                <label class="tit">统计模式：</label>
+                                <label><input type="radio" value="HOUR" name="group" ng-click="click('HOUR')" />按天</label>
+                                <label><input type="radio" value="DAY" name="group" ng-click="click('DAY')" />按月</label>
+                                <label><input type="radio" value="MONTH" name="group" ng-click="click('MONTH')" />按年</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计日期：</label>
+                                <input type="date" ng-model="date" />
+                            </div>
+                            <div class="btns">
+                                <a ng-click="ok()" class="ok">确定</a>
+                                <a ng-click="cancel()" class="ok">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartArea">
+                        <div id="main">
+                            <div class="name">#{{outLine.id}}功率(W)</div>
+                            <div ng-click="set()" class="setting"><a></a></div>
+                            <canvas id="line" height="360" width="900" class="chart chart-line" data="chart.data" labels="chart.labels" legend="false" series="chart.series"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Pdu.html">
+        <div class="mod" id="modPdu" ng-controller="PduCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>PDU</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <div class="set">
+                        <div class="form">
+                            <div class="fi">
+                                <label class="tit">统计模式：</label>
+                                <label><input type="radio" value="HOUR" name="group" ng-click="click('HOUR')" />按天</label>
+                                <label><input type="radio" value="DAY" name="group" ng-click="click('DAY')" />按月</label>
+                                <label><input type="radio" value="MONTH" name="group" ng-click="click('MONTH')" />按年</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计日期：</label>
+                                <input type="date" ng-model="date" />
+                            </div>
+                            <div class="btns">
+                                <a ng-click="ok()" class="ok">确定</a>
+                                <a ng-click="cancel()" class="ok">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartArea">
+                        <div id="main">
+                            <div class="name">功率(W)</div>
+                            <div ng-click="set()" class="setting"><a></a></div>
+                            <canvas id="line" height="360" width="900" class="chart chart-line" data="chart.data" labels="chart.labels" legend="false" series="chart.series"></canvas>
+                        </div>
+                    </div>
+                    <div class="actab">
+                        <span ng-click="prev()"><img src="images/leftArrow.png" /></span>
+                        <ul class="list">
+                            <li ng-repeat="item in list" ng-if="$index>=listIndex && $index<(listIndex+5)" ng-class="item.selected?'on':''" ng-click="switchBox(item)">
+                                <table>
+                                    <tr><th>#{{item.id}}</th></tr>
+                                    <tr><td>输入电压: {{item.voltageInput}}V</td></tr>
+                                    <tr><td>输入电流: {{item.currentInput}}A</td></tr>
+                                    <tr><td>输出电压: {{item.voltageOutput}}V</td></tr>
+                                    <tr><td>输出电流: {{item.currentOutput}}A</td></tr>
+                                </table>
+                            </li>
+                        </ul>
+                        <span ng-click="next()"><img src="images/rightArrow.png" /></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Ups.html">
+        <div class="mod" id="modUps" ng-controller="UpsCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>UPS</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <table>
+                        <colgroup>
+                            <col style="width:120px;" />
+                            <col style="width:220px;" />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td>资源名称：</td>
+                                <td>{{ups.displayName}}</td>
+                                <td rowspan="7" class="pic">
+                                    <div class="inf" ng-if="ups.UPSStatus2=='0'">工作模式：正常模式</div>
+                                    <div class="inf" ng-if="ups.UPSStatus2=='1'">工作模式：旁路模式</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>充电电压：</td>
+                                <td>{{ups.inputVoltage}}V</td>
+                            </tr>
+                            <tr>
+                                <td>电池电压：</td>
+                                <td>{{ups.batteryVoltage}}V</td>
+                            </tr>
+                            <tr>
+                                <td>输出电压：</td>
+                                <td>{{ups.ouputVoltage}}V</td>
+                            </tr>
+                            <tr>
+                                <td>输出电流：</td>
+                                <td>{{ups.outputCurrent}}A</td>
+                            </tr>
+                            <tr>
+                                <td>当前状态：</td>
+                                <td>{{ups.stateText}}</td>
+                            </tr>
+                            <tr>
+                                <td>剩余电量：</td>
+                                <td>{{ups.electricQuantity}}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="set">
+                        <div class="form">
+                            <div class="fi">
+                                <label class="tit">统计模式：</label>
+                                <label><input type="radio" value="HOUR" name="group" ng-click="click('HOUR')" />按天</label>
+                                <label><input type="radio" value="DAY" name="group" ng-click="click('DAY')" />按月</label>
+                                <label><input type="radio" value="MONTH" name="group" ng-click="click('MONTH')" />按年</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计日期：</label>
+                                <input type="date" ng-model="date" />
+                            </div>
+                            <div class="btns">
+                                <a ng-click="ok()" class="ok">确定</a>
+                                <a ng-click="cancel()" class="ok">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartArea">
+                        <div id="main">
+                            <div class="name">剩余电量(%)</div>
+                            <div ng-click="set()" class="setting"><a></a></div>
+                            <canvas id="line" height="360" width="900" class="chart chart-line" data="chart.data" labels="chart.labels" legend="false" series="chart.series"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Ac.html">
+        <div class="mod" id="modAc" ng-controller="AcCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>环境</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <div class="actab">
+                        <span ng-click="prev()"><img src="images/leftArrow.png" /></span>
+                        <ul class="list">
+                            <li ng-repeat="item in list" ng-if="$index>=listIndex && $index<(listIndex+5)" ng-class="item.selected?'on':''" ng-click="switchAc(item)">
+                                <table>
+                                    <tr><th>#{{item.id}}</th></tr>
+                                    <tr><td>上部温度: {{item.currentUpTemperature}}℃</td></tr>
+                                    <tr><td>中部温度: {{item.currentMiddleHumidity}}℃</td></tr>
+                                    <tr><td>下部温度: {{item.currentDownTemperature}}℃</td></tr>
+                                </table>
+                            </li>
+                        </ul>
+                        <span ng-click="next()"><img src="images/rightArrow.png" /></span>
+                    </div>
+
+
+                    <div class="set">
+                        <div class="form">
+                            <!--<div class="fi">-->
+                                <!--<label class="tit">统计方式：</label>-->
+                                <!--<label><input type="radio" value="T" name="type" ng-click="change('T')" />温度</label>-->
+                                <!--<label><input type="radio" value="H" name="type" ng-click="change('H')" />湿度</label>-->
+                            <!--</div>-->
+                            <div class="fi">
+                                <label class="tit">统计模式：</label>
+                                <label><input type="radio" value="HOUR" name="group" ng-click="click('HOUR')" />按天</label>
+                                <label><input type="radio" value="DAY" name="group" ng-click="click('DAY')" />按月</label>
+                                <label><input type="radio" value="MONTH" name="group" ng-click="click('MONTH')" />按年</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计日期：</label>
+                                <input type="date" ng-model="date" />
+                            </div>
+                            <div class="btns">
+                                <a ng-click="ok()" class="ok">确定</a>
+                                <a ng-click="cancel()" class="ok">取消</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chartArea">
+                        <div id="main">
+                            <div class="name">温度(℃)</div>
+                            <div ng-click="set()" class="setting"><a></a></div>
+                            <canvas id="line" height="340" width="900" class="chart chart-line" data="chart.data" labels="chart.labels" legend="true" series="chart.series"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Stat.html">
+        <div class="mod" id="modStat" ng-controller="StatCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>能耗分析</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <table>
+                        <tr>
+                            <td class="energy">
+                                <div class="title">当天统计值</div>
+                                <div class="chart">
+                                    <canvas id="doughnut" width="350" height="220" class="chart chart-doughnut"
+                                            data="energies.data" labels="energies.labels" legend="true"></canvas>
+                                </div>
+                            </td>
+                            <td class="pue">
+                                <div class="title">实时数据</div>
+                                <div class="info"><span>PUE:{{pue.pue|number:1}}</span></div>
+                                <div class="chart">
+                                    <span><img alt="" src="images/pue_cursor.png" /></span>
+                                </div>
+                                <div class="detail">
+                                    <ul>
+                                        <li>总负载：{{pue.total}}W</li>
+                                        <li>IT负载：{{pue.it}}W</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="set">
+                        <div class="form">
+                            <div class="fi">
+                                <label class="tit">统计方式：</label>
+                                <label><input type="radio" value="E" name="type" ng-click="change('E')" />能耗分布</label>
+                                <label><input type="radio" value="P" name="type" ng-click="change('P')" />PUE</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计模式：</label>
+                                <label><input type="radio" value="HOUR" name="group" ng-click="click('HOUR')" />按天</label>
+                                <label><input type="radio" value="DAY" name="group" ng-click="click('DAY')" />按月</label>
+                                <label><input type="radio" value="MONTH" name="group" ng-click="click('MONTH')" />按年</label>
+                            </div>
+                            <div class="fi">
+                                <label class="tit">统计日期：</label>
+                                <input type="date" ng-model="date" />
+                            </div>
+                            <div class="btns">
+                                <a ng-click="ok()" class="ok">确定</a>
+                                <a ng-click="cancel()" class="ok">取消</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chartArea">
+                        <div id="main">
+                            <div class="name" ng-if="type=='E'">耗电量(W)</div>
+                            <div class="name" ng-if="type=='P'">PUE</div>
+                            <div ng-click="set()" class="setting"><a></a></div>
+                            <canvas id="line" height="210" width="900" class="chart chart-line" data="chart.data" labels="chart.labels" legend="false" series="chart.series"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Video.html">
+        <div class="mod" id="modVideo" ng-controller="VideoCtrl">
+            <div class="mhd">
+                <ul>
+                    <li ng-repeat="c in Cameras" ng-class="c.on?'on':''" ng-click="loadCamera(c)"><a>{{c.displayName}}</a></li>
+                </ul>
+                <label>监控记录</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <img alt="" src="{{Camera.url}}" />
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Net.html">
+        <div class="mod" id="modNet" ng-controller="NetCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>网络通讯信息</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <img alt="" src="images/net.png" />
+                    <ul>
+                        <li><label>状态：</label>{{net.stateText}}</li>
+                        <li><label>SSID：</label>{{net.displayName}}</li>
+                        <li><label>IP：</label>{{net.ip}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Assets.html">
+        <div class="mod" id="modAssets" ng-controller="AssetsCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>资产管理</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <div class="left">
+                        <h5>Keydak机柜资产目录：</h5>
+                        <ul>
+                            <li ng-repeat="item in assets" class="{{item.className}}" ng-click="itemClick(item)"><label ng-class="item.focus?'on':'off'">{{item.displayName}}</label><span>{{item.description}}</span></li>
+                        </ul>
+
+                    </div>
+                    <div class="right">
+                        <div class="zone">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Alert.html">
+        <div class="mod" id="modAlert" ng-controller="AlertCtrl" jd-event="LoadData,loadData">
+            <div class="mhd">
+                <label>告警信息</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <ul class="right">
+                        <li ng-repeat="tp in typies" ng-class="tp.selected?'on':''" ng-click="switchType(tp)"><a ng-bind="tp.name"></a></li>
+                    </ul>
+                    <ul>
+                        <li ng-repeat="cate in categories" ng-class="cate.key == category ?'on':''" ng-click="switchCategory(cate)"><a>{{cate.name}}</a></li>
+                    </ul>
+                    <table>
+                        <thead><tr><th>时间</th><th>类别</th><th>内容</th></tr></thead>
+                        <tbody>
+                        <tr ng-repeat="r in list">
+                            <td class="time">{{r.time | date:'yyyy-MM-dd HH:mm'}}</td>
+                            <td class="category">{{r.displayName}}</td>
+                            <td class="desc">{{r.description}}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="3">
+                                <uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" previous-text="上一页" next-text="下一页" max-size="0"></uib-pagination>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="Template/Set.html">
+        <div class="mod" id="modSet" ng-controller="SetCtrl">
+            <div class="mhd">
+                <label>系统设置</label>
+            </div>
+            <div class="mbd">
+                <div class="box">
+                    <div class="category">
+                        <ul>
+                            <!--<li ng-class="category=='password'?'on':'off'" ng-click="switchCategory('password')"><label>&#xe608;</label>密码</li>-->
+                            <!--<li ng-class="category=='access'?'on':'off'" ng-click="switchCategory('access')"><label>&#xe648;</label>门禁</li>-->
+                            <!--<li ng-class="category=='video'?'on':'off'" ng-click="switchCategory('video')"><label>&#xe60f;</label>视频</li>-->
+                            <li ng-class="category=='led'?'on':'off'" ng-click="switchCategory('led')"><label>&#xe61c;</label>灯带</li>
+                            <!--<li ng-class="category=='net'?'on':'off'" ng-click="switchCategory('net')"><label>&#xe63d;</label>通讯</li>-->
+                            <!--<li ng-class="category=='time'?'on':'off'" ng-click="switchCategory('time')"><label>&#xe64f;</label>时间</li>-->
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="select" ng-if="category==null">
+                        <div class="info">请选择设置的类别</div>
+                    </div>
+                    <div class="password" ng-if="category=='password'" ng-controller="SetPasswordCtrl">
+                        <div class="module first">
+                            <div class="boxs">
+                                <h3>请输入登陆密码：<input type="password" ng-model="password" readonly /></h3>
+                                <div class="nums">
+                                    <ul>
+                                        <li ng-repeat="num in nums" ng-click="pressPwd(num)"><span class="num{{num}}">{{num}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="module second">
+                            <div class="boxs">
+                                <h3>请再次输入登陆密码:<input type="password" ng-model="password2" readonly /></h3>
+                                <div class="nums">
+                                    <ul>
+                                        <li ng-repeat="num in nums" ng-click="pressPwdAg(num)"><span class="num{{num}}">{{num}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result">
+                            <div class="warn"><span>&#xe614;</span><label>登陆密码设置失败</label><a ng-click="reset()">重新设置</a></div>
+                            <div class="succ"><span>&#xe60d;</span><label>登陆密码设置成功</label></div>
+                        </div>
+                    </div>
+                    <div class="password" ng-if="category=='access'" ng-controller="SetAccessCtrl">
+                        <div class="module first">
+                            <div class="boxs">
+                                <h3>请输入门禁密码：<input type="password" ng-model="password" readonly /></h3>
+                                <div class="nums">
+                                    <ul>
+                                        <li ng-repeat="num in nums" ng-click="pressPwd(num)"><span class="num{{num}}">{{num}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="module second">
+                            <div class="boxs">
+                                <h3>请再次输入门禁密码:<input type="password" ng-model="password2" readonly /></h3>
+                                <div class="nums">
+                                    <ul>
+                                        <li ng-repeat="num in nums" ng-click="pressPwdAg(num)"><span class="num{{num}}">{{num}}</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result">
+                            <div class="warn"><span>&#xe614;</span><label>门禁密码设置失败</label><a ng-click="reset()">重新设置</a></div>
+                            <div class="succ"><span>&#xe60d;</span><label>门禁密码设置成功</label></div>
+                        </div>
+                    </div>
+                    <div class="video" ng-if="category=='video'" ng-controller="SetVideoCtrl">
+                        <h3>请设置摄像头地址：</h3>
+                        <ul>
+                            <li ng-repeat="c in Cameras" ng-show="c.editable=='1'"><label>{{c.id}}</label><input type="text" ng-model="c.video" /></li>
+                        </ul>
+                        <button ng-click="save()">保存设置</button><div class="result">{{result}}</div>
+                    </div>
+                    <div class="net" ng-if="category=='net'" ng-controller="SetNetCtrl">
+                        <h3>请选择SSID：</h3>
+                        <ul class="list">
+                            <li ng-repeat="net in Nets" ng-class="net.state=='1'?'on':'off'" ng-click="switchNet(net)"><label>&#xe63d;</label>{{net.ssid}}</li>
+                        </ul>
+                        <div class="clear"></div>
+                        <div class="safe" ng-show="Net!=null && Net.safe=='1'">
+                            <h3>请输入密码：<input type="text" ng-model="password" /></h3>
+                        </div>
+                        <button ng-click="save()">保存设置</button><div class="result">{{result}}</div>
+                    </div>
+                    <div class="net" ng-if="category=='led'" ng-controller="SetLedCtrl">
+                        <h3>设置灯带温度阈值：</h3>
+                        <div class="clear"></div>
+                        <div>
+                            <h3>温度阈值：
+                                <select class="selectTemperature" ng-model="Led.temperature" ng-init="40" ng-options="v for v in values">
+                                </select>
+                                </h3>
+                        </div>
+                        <button ng-click="save()">保存设置</button><div class="result">{{result}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+</body>
+</html>
